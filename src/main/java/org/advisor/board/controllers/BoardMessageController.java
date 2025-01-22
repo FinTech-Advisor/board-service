@@ -9,12 +9,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/message")
 public class BoardMessageController {
 
+    /**
+     * 관리자 메세지 목록
+     *
+     * @param seq
+     * @return
+     */
     @GetMapping("/view/{seq}")
     public JSONData view(@PathVariable("seq") Long seq) {
 
         return null;
     }
 
+    /**
+     * 관리자 메세지 상세
+     *
+     * @return
+     */
     @GetMapping("/list")
     public JSONData list() {
 
