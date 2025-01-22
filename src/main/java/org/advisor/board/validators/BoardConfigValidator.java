@@ -8,7 +8,7 @@ import org.springframework.validation.Validator;
 public class BoardConfigValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz.isAssignableFrom(BoardConfigValidator.class);
+        return clazz.isAssignableFrom(RequestConfig.class);
     }
 
     @Override
