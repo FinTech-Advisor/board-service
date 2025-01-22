@@ -6,23 +6,29 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/message")
-public class MessageController {
+@RequestMapping("/propose")
+public class BoardProposeController {
 
-    @GetMapping("view/{seq}")
-    public JSONData view(@PathVariable("seq") Long seq) {
-
-        return null;
-    }
-
-    @GetMapping("list")
+    @GetMapping("/list")
     public JSONData list() {
 
         return null;
     }
 
-    @PostMapping
-    public JSONData message() {
+    @GetMapping("/view/{seq}")
+    public JSONData view(@PathVariable("seq") Long seq) {
+
+        return null;
+    }
+
+    @PostMapping("/save")
+    public JSONData save() {
+
+        return null;
+    }
+
+    @GetMapping("/update")
+    public JSONData update() {
 
         return null;
     }

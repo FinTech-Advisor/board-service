@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/event")
-public class EventController {
+public class BoardEventController {
 
     @GetMapping("/list")
     public JSONData list() {
@@ -15,25 +15,25 @@ public class EventController {
         return null;
     }
 
-    @GetMapping("view/{seq}")
+    @GetMapping("/view/{seq}")
     public JSONData view(@PathVariable("seq") Long seq) {
 
         return null;
     }
 
-    @GetMapping("edit")
-    public JSONData edit() {
+    @GetMapping("/update")
+    public JSONData update() {
 
         return null;
     }
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public JSONData save() {
 
         return null;
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping("/delete")
     public JSONData delete() {
 
         return null;
