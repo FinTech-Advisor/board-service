@@ -7,9 +7,9 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 public interface BoardRepository extends JpaRepository<Board, String>, QuerydslPredicateExecutor<Board> {
 
-    default boolean exists(String bid) {
+    default boolean exists(String seq) {
         QBoard board = QBoard.board;
 
-        return exists(board.bid.eq(bid));
+        return exists(board.seq.eq(seq));
     }
 }

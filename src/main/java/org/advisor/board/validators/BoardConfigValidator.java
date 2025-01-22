@@ -1,10 +1,12 @@
 package org.advisor.board.validators;
 
 import org.advisor.board.controllers.RequestConfig;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+@Configuration
 public class BoardConfigValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
