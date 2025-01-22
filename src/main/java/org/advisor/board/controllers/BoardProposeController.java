@@ -27,7 +27,7 @@ public class BoardProposeController {
         return null;
     }
 
-    @GetMapping("/update")
+    @GetMapping("/save")
     public JSONData update() {
 
         return null;

@@ -21,7 +21,7 @@ public class BoardEventController {
         return null;
     }
 
-    @GetMapping("/update")
+    @GetMapping("/save")
     public JSONData update() {
 
         return null;

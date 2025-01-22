@@ -20,10 +20,4 @@ public class BoardMessageController {
 
         return null;
     }
-
-    @PostMapping
-    public JSONData message() {
-
-        return null;
-    }
 }
