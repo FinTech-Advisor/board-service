@@ -25,7 +25,7 @@ import java.util.Objects;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BoardUpdateService {
+public class BoardEditService {
 
     private final BoardConfigInfoService configInfoService;
     private final BoardDataRepository boardDataRepository;
