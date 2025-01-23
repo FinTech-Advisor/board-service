@@ -1,21 +1,23 @@
 package org.advisor.global.libs;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.advisor.global.entities.CodeValue;
+import org.advisor.global.repositories.CodeValueRepository;
+import org.advisor.member.MemberUtil;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Lazy
@@ -26,6 +28,8 @@ public class Utils {
     private final HttpServletRequest request;
     private final MessageSource messageSource;
     private final DiscoveryClient discoveryClient;
+    private final CodeValueRepository codeValueRepository;
+    private final MemberUtil memberUtil;
 
     /**
      * 메서지 코드로 조회된 문구
@@ -61,23 +65,23 @@ public class Utils {
         ResourceBundleMessageSource ms = (ResourceBundleMessageSource) messageSource;
 
 
-            // 필드별 에러코드 - getFieldErrors()
-            // Collectors.toMap
-            Map<String, List<String>> messages = errors.getFieldErrors()
-                    .stream()
-                    .collect(Collectors.toMap(FieldError::getField, f -> getMessages(f.getCodes()), (v1, v2) -> v2));
+        // 필드별 에러코드 - getFieldErrors()
+        // Collectors.toMap
+        Map<String, List<String>> messages = errors.getFieldErrors()
+                .stream()
+                .collect(Collectors.toMap(FieldError::getField, f -> getMessages(f.getCodes()), (v1, v2) -> v2));
 
-            // 글로벌 에러코드 - getGlobalErrors()
-            List<String> gMessages = errors.getGlobalErrors()
-                    .stream()
-                    .flatMap(o -> getMessages(o.getCodes()).stream())
-                    .toList();
-            // 글로벌 에러코드 필드 - global
-            if (!gMessages.isEmpty()) {
-                messages.put("global", gMessages);
-            }
+        // 글로벌 에러코드 - getGlobalErrors()
+        List<String> gMessages = errors.getGlobalErrors()
+                .stream()
+                .flatMap(o -> getMessages(o.getCodes()).stream())
+                .toList();
+        // 글로벌 에러코드 필드 - global
+        if (!gMessages.isEmpty()) {
+            messages.put("global", gMessages);
+        }
 
-            return messages;
+        return messages;
     }
 
     /**
@@ -122,5 +126,104 @@ public class Utils {
         String auth = request.getHeader("Authorization");
 
         return StringUtils.hasText(auth) ? auth.substring(7).trim() : null;
+    }
+
+    /**
+     * 전체 주소
+     *
+     * @param url
+     * @return
+     */
+    public String getUrl(String url) {
+        return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
+    }
+
+    /**
+     * Code - Value 형태로 레디스 저장소에 저장
+     *
+     * @param code
+     * @param value
+     */
+    public void saveValue(String code, Object value) {
+        CodeValue item = new CodeValue();
+        item.setCode(code);
+        item.setValue(value);
+
+        codeValueRepository.save(item);
+    }
+
+    /**
+     * code 값으로 value 값 조회
+     *
+     * @param code
+     * @return
+     * @param <T>
+     */
+    public <T> T getValue(String code) {
+        CodeValue item = codeValueRepository.findByCode(code);
+
+        return item == null ? null : (T)item.getValue();
+    }
+
+    /**
+     * 저장된 값 code로 삭제
+     *
+     * @param code
+     */
+    public void deleteValue(String code) {
+        codeValueRepository.deleteById(code);
+    }
+
+    public String getUserHash() {
+        String userKey = "" + Objects.hash("userHash");
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(userKey)) {
+                    return cookie.getValue();
+                }
+            }
+        }
+
+        return "";
+    }
+
+    public boolean isMobile() {
+
+        // 요청 헤더 - User-Agent / 브라우저 정보
+        String ua = request.getHeader("User-Agent");
+        String pattern = ".*(iPhone|iPod|iPad|BlackBerry|Android|Windows CE|LG|MOT|SAMSUNG|SonyEricsson).*";
+
+
+        return StringUtils.hasText(ua) && ua.matches(pattern);
+    }
+
+    /**
+     * 요청 헤더
+     *  - JWT 토큰이 있으면 자동 추가
+     *
+     * @return
+     */
+    public HttpHeaders getRequestHeader() {
+        String token = getAuthToken();
+        HttpHeaders headers = new HttpHeaders();
+        if (StringUtils.hasText(token)) {
+            headers.setBearerAuth(token);
+        }
+
+        return headers;
+    }
+
+    // 회원, 비회원 구분 해시
+    public int getMemberHash() {
+        // 회원 - 회원번호, 비회원 - IP + User-Agent
+        if (memberUtil.isLogin()) return Objects.hash(memberUtil.getMember().getSeq());
+        else { // 비회원
+            String ip = request.getRemoteAddr();
+            String ua = request.getHeader("User-Agent");
+
+            return Objects.hash(ip, ua);
+        }
     }
 }

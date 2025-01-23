@@ -25,6 +25,9 @@ public class BoardData extends BaseMemberEntity implements Serializable {
     private Board board;
 
     @Column(length=45, nullable = false)
+    private String gid;
+
+    @Column(length=45, nullable = false)
     private String poster; // 작성자명
 
     @Column(length=65)

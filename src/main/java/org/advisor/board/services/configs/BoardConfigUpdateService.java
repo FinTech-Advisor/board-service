@@ -1,11 +1,11 @@
 package org.advisor.board.services.configs;
 
 import lombok.RequiredArgsConstructor;
-import org.koreait.board.controllers.RequestConfig;
-import org.koreait.board.entities.Board;
-import org.koreait.board.repositories.BoardRepository;
-import org.koreait.global.libs.Utils;
-import org.koreait.member.contants.Authority;
+import org.advisor.board.controllers.RequestConfig;
+import org.advisor.board.entities.Board;
+import org.advisor.board.repositories.BoardRepository;
+import org.advisor.global.libs.Utils;
+import org.advisor.member.contants.Authority;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -35,12 +35,9 @@ public class BoardConfigUpdateService {
         board.setUseEditor(form.isUseEditor());
         board.setUseEditorImage(form.isUseEditorImage());
         board.setUseAttachFile(form.isUseAttachFile());
-        board.setUseComment(form.isUseComment());
-        board.setSkin(StringUtils.hasText(form.getSkin()) ? form.getSkin() : "default");
         board.setListAuthority(Objects.requireNonNullElse(form.getListAuthority(), Authority.ALL));
         board.setViewAuthority(Objects.requireNonNullElse(form.getViewAuthority(), Authority.ALL));
         board.setWriteAuthority(Objects.requireNonNullElse(form.getWriteAuthority(), Authority.ALL));
-        board.setCommentAuthority(Objects.requireNonNullElse(form.getCommentAuthority(), Authority.ALL));
 
         String locationAfterWriting = form.getLocationAfterWriting();
         board.setLocationAfterWriting(StringUtils.hasText(locationAfterWriting) ? locationAfterWriting : "list");

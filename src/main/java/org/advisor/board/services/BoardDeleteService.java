@@ -46,7 +46,5 @@ public class BoardDeleteService {
         boardRepository.delete(item);
         boardRepository.flush();
 
-        // 비회원 인증 정보 삭제
-        utils.deleteValue(utils.getUserHash() + "_board_" + seq);
     }
 }

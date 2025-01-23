@@ -13,6 +13,7 @@ import org.advisor.board.entities.BoardData;
 import org.advisor.board.entities.QBoardData;
 import org.advisor.board.exceptions.BoardDataNotFoundException;
 import org.advisor.board.repositories.BoardDataRepository;
+import org.advisor.board.services.configs.BoardConfigInfoService;
 import org.advisor.global.libs.Utils;
 import org.advisor.global.paging.ListData;
 import org.advisor.global.paging.Pagination;

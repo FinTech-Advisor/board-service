@@ -7,6 +7,7 @@ import org.advisor.board.entities.Board;
 import org.advisor.board.entities.BoardData;
 import org.advisor.board.exceptions.BoardDataNotFoundException;
 import org.advisor.board.repositories.BoardDataRepository;
+import org.advisor.board.services.configs.BoardConfigInfoService;
 import org.advisor.global.libs.Utils;
 import org.advisor.member.MemberUtil;
 import org.springframework.context.annotation.Lazy;
@@ -15,7 +16,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -56,12 +56,6 @@ public class BoardUpdateService {
             data.setGid(form.getGid());
             data.setIpAddr(request.getRemoteAddr());
             data.setUserAgent(request.getHeader("User-Agent"));
-        }
-
-        // 글등록, 글 수정 공통 반영 사항
-        String guestPw = form.getGuestPw();
-        if (StringUtils.hasText(guestPw)) { // 비회원 비밀번호
-            data.setGuestPw(passwordEncoder.encode(guestPw));
         }
 
         data.setPoster(form.getPoster());
