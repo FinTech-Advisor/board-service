@@ -11,5 +11,5 @@ import java.io.Serializable;
 public class CodeValue implements Serializable {
     @Id
     private String code;
-    private Object value; // 지네릭 클래스로 설정된 타입을 명시
+    private Object value;
 }
