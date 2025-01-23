@@ -25,7 +25,7 @@ public class BoardData extends BaseEntity implements Serializable {
     private Board board;
 
     @Column(length=45, nullable = false)
-    private String gid;
+    private String bid;
 
     @Column(length=45, nullable = false)
     private String poster; // 작성자명
