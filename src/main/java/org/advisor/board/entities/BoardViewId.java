@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardViewId {
-    private Long seq;
-    private int hash;
+    private Long seq; // 필요한 데이터값에 seq 추가
+    private int hash; // 필요한 데이터 값에 hash 추가
 }
 

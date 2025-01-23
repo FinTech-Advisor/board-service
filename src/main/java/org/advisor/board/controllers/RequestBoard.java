@@ -1,7 +1,6 @@
 package org.advisor.board.controllers;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -9,6 +8,9 @@ public class RequestBoard {
 
     private Long seq; // 게시글 번호
     private String mode;
+
+    @NotBlank
+    private String bid; // 게시판 아이디
 
     @NotBlank
     private String gid;

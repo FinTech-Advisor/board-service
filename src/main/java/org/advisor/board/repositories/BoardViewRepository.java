@@ -1,4 +1,4 @@
-package org.advisor.board.repository;
+package org.advisor.board.repositories;
 
 import org.advisor.board.entities.BoardView;
 import org.advisor.board.entities.BoardViewId;

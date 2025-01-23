@@ -1,4 +1,4 @@
-package org.advisor.board.repository;
+package org.advisor.board.repositories;
 
 import org.advisor.board.entities.BoardData;
 import org.springframework.data.jpa.repository.JpaRepository;

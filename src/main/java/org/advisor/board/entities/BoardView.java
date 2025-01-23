@@ -13,6 +13,6 @@ public class BoardView {
     private Long seq; // 게시글 번호
 
     @Id
-    private int hash; // 회원번호 또는 IP + User-Agent로 조합해서 생성
+    private int hash; // 회원번호 또는 IP + tUser-Agen로 조합해서 생성
 }
 

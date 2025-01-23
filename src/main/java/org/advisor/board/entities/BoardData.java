@@ -1,10 +1,9 @@
 package org.advisor.board.entities;
 
 
-
 import jakarta.persistence.*;
 import lombok.Data;
-import org.advisor.global.entities.BaseEntity;
+import org.advisor.global.entities.BaseMemberEntity;
 import org.apache.tomcat.jni.FileInfo;
 
 import java.io.Serializable;
@@ -16,16 +15,14 @@ import java.util.List;
         @Index(name="idx_bd_created_at", columnList = "createdAt DESC"),
         @Index(name="idx_bd_notice_created_at", columnList = "notice DESC, createdAt DESC")
 })
-public class BoardData extends BaseEntity implements Serializable {
-    @Id @GeneratedValue
+public class BoardData extends BaseMemberEntity implements Serializable {
+    @Id
+    @GeneratedValue
     private Long seq;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="bid")
     private Board board;
-
-    @Column(length=45, nullable = false)
-    private String bid;
 
     @Column(length=45, nullable = false)
     private String poster; // 작성자명
@@ -39,9 +36,11 @@ public class BoardData extends BaseEntity implements Serializable {
     private String subject; // 글 제목
 
     @Lob
-    private String content; // 글 내용
+    private String content;
 
     private long viewCount; // 조회수
+
+    private long commentCount; // 댓글수
 
     @Column(length=20)
     private String ipAddr; // ip 주소
