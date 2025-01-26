@@ -1,6 +1,5 @@
 package org.advisor.member;
 
-
 import org.advisor.member.contants.Authority;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

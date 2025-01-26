@@ -35,9 +35,10 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	implementation 'org.modelmapper:modelmapper:3.2.1'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
 
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
@@ -68,7 +69,6 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
 
 def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
 

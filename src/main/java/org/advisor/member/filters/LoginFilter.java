@@ -7,7 +7,6 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.advisor.global.libs.Utils;
-
 import org.advisor.global.rests.JSONData;
 import org.advisor.member.Member;
 import org.springframework.http.HttpEntity;
