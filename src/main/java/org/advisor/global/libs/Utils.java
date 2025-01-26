@@ -224,9 +224,7 @@ public class Utils {
         else { // 비회원
             String ip = request.getRemoteAddr();
             String ua = request.getHeader("User-Agent");
-
             return Objects.hash(ip, ua);
         }
     }
-
 }
