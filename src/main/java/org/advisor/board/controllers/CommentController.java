@@ -101,26 +101,6 @@ public class CommentController {
     }
 
     /**
-     * 비회원 비밀번호 검증
-     *  - 응답코드 204 : 검증 성공
-     *  - 응답코드 401 : 검증 실패
-     *
-     * @params seq : 댓글 번호
-     *
-     *
-     */
-    @PostMapping("/password/{seq}")
-    public ResponseEntity<Void> validateGuestPassword(@PathVariable("seq") Long seq, @RequestParam(name="password", required = false) String password) {
-        if (!StringUtils.hasText(password)) {
-            throw new BadRequestException(utils.getMessage("NotBlank.password"));
-        }
-
-        HttpStatus status = commentValidator.checkGuestPassword(password, seq) ? HttpStatus.NO_CONTENT : HttpStatus.UNAUTHORIZED;
-
-        return ResponseEntity.status(status).build();
-    }
-
-    /**
      * 공통 처리
      *
      * @param seq

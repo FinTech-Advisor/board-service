@@ -76,6 +76,6 @@ public class CommentInfoService {
 
         boolean editable = memberUtil.isAdmin() || createdBy == null || (memberUtil.isLogin() && member.getEmail().equals(createdBy));
 
-        item.setEditable(editable); // 댓글 수정, 삭제 가능, 다만 비회원은 비밀번호 검증 페이지로 넘어간다.
+        item.setEditable(editable); // 댓글 수정, 삭제 가능
     }
 }

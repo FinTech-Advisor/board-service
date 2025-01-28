@@ -261,7 +261,7 @@ public class BoardInfoService {
         String createdBy = item.getCreatedBy();
         Member loggedMember = memberUtil.getMember();
 
-        boolean editable = createdBy == null || (memberUtil.isLogin() && loggedMember.getEmail().equals(createdBy)); // 비회원게시글은 비밀번호 확인이 필요하므로 버튼 노출, 회원게시글 로그인한 회원과 일치하면 버튼 노출
+        boolean editable = memberUtil.isLogin() && loggedMember.getEmail().equals(createdBy); // 회원게시글 로그인 한 회원과 일치하면 버튼 노출
 
         boolean mine = utils.getValue(utils.getUserHash() + "_board_" + item.getSeq()) != null
                         || (memberUtil.isLogin() && loggedMember.getEmail().equals(createdBy));

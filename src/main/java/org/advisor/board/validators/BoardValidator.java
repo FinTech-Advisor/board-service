@@ -2,7 +2,6 @@ package org.advisor.board.validators;
 
 import lombok.RequiredArgsConstructor;
 import org.advisor.board.controllers.RequestBoard;
-import org.advisor.board.entities.BoardData;
 import org.advisor.board.entities.QCommentData;
 import org.advisor.board.repositories.BoardDataRepository;
 import org.advisor.board.repositories.CommentDataRepository;
@@ -13,9 +12,7 @@ import org.advisor.member.MemberUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Lazy
@@ -38,36 +35,11 @@ public class BoardValidator implements Validator, PasswordValidator {
     public void validate(Object target, Errors errors) {
         RequestBoard form = (RequestBoard)target;
 
-        // 비회원 비밀번호 검증
-        if (!memberUtil.isLogin()) {
-            // 필수 항목 검증
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "guestPw", "NotBlank");
-
-            // 대소문자 구분없는 알파벳 1자 이상, 숫자 1자 이상 포함
-            String guestPw = form.getGuestPw();
-            if (StringUtils.hasText(guestPw) && (!alphaCheck(guestPw, true) || !numberCheck(guestPw))) {
-                errors.rejectValue("guestPw", "Complexity");
-            }
-        }
-
         // 수정일때 게시글 번호(seq) 필수 항목
         String mode = form.getMode();
         Long seq = form.getSeq();
         if (mode != null && mode.equals("edit") && (seq == null || seq < 1L)) {
             errors.rejectValue("seq", "NotNull");
-        }
-    }
-
-    /**
-     * 게시글 삭제 가능 여부 체크
-     *  - 댓글이 존재하면 삭제 불가
-     * @param seq
-     */
-    public void checkDelete(Long seq) {
-        QCommentData commentData = QCommentData.commentData;
-
-        if (commentDataRepository.count(commentData.data.seq.eq(seq)) > 0L) {
-            throw new BadRequestException(utils.getMessage("Exist.comment"));
         }
     }
 }

@@ -54,11 +54,6 @@ public class CommentUpdateService {
         item.setCommenter(form.getCommenter());
         item.setContent(form.getContent());
 
-        String guestPw = form.getGuestPw();
-        if (StringUtils.hasText(guestPw)) {
-            item.setGuestPw(passwordEncoder.encode(guestPw));
-        }
-
         commentDataRepository.saveAndFlush(item);
 
         // 댓글 갯수 업데이트

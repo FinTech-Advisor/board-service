@@ -78,32 +78,16 @@ public class BoardAuthService {
             /**
              * 1. 회원 게시글인 경우  / 직접 작성한 회원만 수정 가능
              *
-             * 2. 비회원 게시글인 경우 / 비회원 비밀번호 확인이 완료된 경우 삭제 가능
              */
             BoardData item = infoService.get(seq);
             String createdBy = item.getCreatedBy();
 
-            if (createdBy == null) { // 비회원 게시글
-                /**
-                 * 비회원 게시글이 인증된 경우 - 세션 키 - "board_게시글번호"가 존재
-                 * 인증이 되지 않은 경우 GuestPasswordCheckException을 발생 시킨다 -> 비번 확인 절차
-                 */
-                if (utils.getValue(utils.getUserHash() + "_board_" + seq) == null) {
-                    utils.saveValue(utils.getUserHash() + "_seq", seq);
-                    throw new GuestPasswordCheckException();
-                }
-
-            } else if (!memberUtil.isLogin() || !createdBy.equals(member.getEmail())) { // 회원 게시글  - 직접 작성한 회원만 수정 가능 통제 - 미로그인 상태 또는 로그인 상태이지만 작성자의 이메일과 일치하지 않는 경우
+            if (!memberUtil.isLogin() || !createdBy.equals(member.getEmail())) { // 회원 게시글  - 직접 작성한 회원만 수정 가능 통제 - 미로그인 상태 또는 로그인 상태이지만 작성자의 이메일과 일치하지 않는 경우
                 isVerified = false;
             }
         } else if (mode.equals("comment")) { // 댓글 수정 삭제
             String commenter = comment.getCreatedBy();
-            if (commenter == null) { // 비회원으로 작성한 댓글
-                if (utils.getValue(utils.getUserHash() + "_comment_" + seq) == null) { // 댓글 비회원 인증 X
-                    utils.saveValue(utils.getUserHash() + "_cSeq", seq);
-                    throw new GuestPasswordCheckException();
-                }
-            } else if (!memberUtil.isLogin() || !commenter.equals(member.getEmail())) { // 회원이 작성한 댓글
+            if (!memberUtil.isLogin() || !commenter.equals(member.getEmail())) { // 회원이 작성한 댓글
                 isVerified = false;
             }
         }

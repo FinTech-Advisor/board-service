@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@IdClass(BoardViewId.class)
+@IdClass(BoardViewId.class) // 복합키 생성
 public class BoardView {
     @Id
     private Long seq; // 게시글 번호

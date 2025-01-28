@@ -26,17 +26,16 @@ public class BoardDeleteService {
         BoardData item = infoService.get(seq);
 
         // 파일 삭제 S
+        /*
         HttpEntity<Void> request = new HttpEntity<>(utils.getRequestHeader());
         String apiUrl = utils.serviceUrl("file-service", "/" + item.getGid());
         restTemplate.exchange(URI.create(apiUrl), HttpMethod.GET, request, Void.class);
-
+         */
         // 파일 삭제 E
 
         boardRepository.delete(item);
         boardRepository.flush();
 
-        // 비회원 인증 정보 삭제
-        utils.deleteValue(utils.getUserHash() + "_board_" + seq);
 
         return item;
     }

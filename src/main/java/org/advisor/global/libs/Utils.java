@@ -219,12 +219,7 @@ public class Utils {
 
     // 회원, 비회원 구분 해시
     public int getMemberHash() {
-        // 회원 - 회원번호, 비회원 - IP + User-Agent
-        if (memberUtil.isLogin()) return Objects.hash(memberUtil.getMember().getSeq());
-        else { // 비회원
-            String ip = request.getRemoteAddr();
-            String ua = request.getHeader("User-Agent");
-            return Objects.hash(ip, ua);
-        }
+        // 회원 - 회원번호
+        return Objects.hash(memberUtil.getMember().getSeq());
     }
 }
