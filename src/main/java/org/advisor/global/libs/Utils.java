@@ -93,7 +93,7 @@ public class Utils {
      * @param url
      * @return
      */
-    public String  serviceUrl(String serviceId, String url) {
+    public String serviceUrl(String serviceId, String url) {
         try {
             List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
             String profile = System.getenv("spring.profiles.active");
@@ -217,7 +217,7 @@ public class Utils {
         return headers;
     }
 
-    // 회원, 비회원 구분 해시
+    // 회원 해시
     public int getMemberHash() {
         // 회원 - 회원번호
         return Objects.hash(memberUtil.getMember().getSeq());

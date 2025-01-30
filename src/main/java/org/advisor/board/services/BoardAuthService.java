@@ -39,6 +39,7 @@ public class BoardAuthService {
     public void check(String mode, String bid, Long seq) {
         System.out.printf("mode=%s, bid=%s, seq=%d%n", mode, bid, seq);
         if (!StringUtils.hasText(mode) || !StringUtils.hasText(bid) || (List.of("edit", "delete", "comment").contains(mode) && (seq == null || seq < 1L ))) {
+            System.out.printf("mode = %s, bid = %s, seq = %s 값 확인 필요%n", mode, bid, seq);
             throw new BadRequestException();
         }
 

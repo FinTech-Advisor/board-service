@@ -1,5 +1,11 @@
 package org.advisor.board.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.advisor.board.entities.Board;
@@ -11,6 +17,7 @@ import org.advisor.global.exceptions.BadRequestException;
 import org.advisor.global.libs.Utils;
 import org.advisor.global.paging.ListData;
 import org.advisor.global.rests.JSONData;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,14 +33,25 @@ public class BoardAdminController {
     private final BoardConfigUpdateService updateService;
     private final BoardConfigInfoService infoService;
     private final BoardConfigDeleteService deleteService;
+    private final HttpServletRequest request;
 
     /**
      * 게시판 설정 등록, 수정 처리
      *
      * @return
      */
-    @PostMapping(value = "/config")
+    @Operation(summary = "게시판 등록 및 수정 처리")
+    @ApiResponse(responseCode = "201", description = "게시판 등록 및 수정 처리")
+    @Parameters({
+            @Parameter(name="게시판 그룹", description = "게시판 그룹"),
+            @Parameter(name="게시판 제목", description = "게시판 제목"),
+            @Parameter(name="글 모드", description = "write 혹은 edit"),
+    })
+    @RequestMapping(path="/config", method={RequestMethod.POST, RequestMethod.PATCH})
     public JSONData save(@Valid @RequestBody RequestConfig form, Errors errors) {
+        String method = request.getMethod().toUpperCase();
+        String mode = method.equals("POST") ? "write" : "edit";
+        form.setMode(mode);
 
         configValidator.validate(form, errors);
 
@@ -53,7 +71,6 @@ public class BoardAdminController {
      */
     @GetMapping("/config")
     public JSONData list(@ModelAttribute BoardConfigSearch search) {
-
         ListData<Board> items = infoService.getList(search);
 
         return new JSONData(items);
@@ -73,13 +90,13 @@ public class BoardAdminController {
     }
 
     /**
-     * 게시판 한개 또는 여러개 삭제 처리
+     * 게시판 한 개 또는 여러 개 삭제 처리
      *
      * @param bids
      * @return
      */
     @DeleteMapping("/config")
-    public JSONData delete(@RequestParam("bid") List<String> bids) {
+    public JSONData delete(@RequestParam("bids") List<String> bids) {
 
         List<Board> items = deleteService.process(bids);
 

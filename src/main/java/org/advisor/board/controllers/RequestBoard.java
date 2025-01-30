@@ -2,6 +2,7 @@ package org.advisor.board.controllers;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.advisor.global.entities.BaseEntity;
 
 @Data
 public class RequestBoard {

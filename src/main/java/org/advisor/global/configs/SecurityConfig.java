@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.advisor.member.filters.LoginFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -48,9 +49,14 @@ public class SecurityConfig {
                    }); // 로그인 후 권한이 없는 경우
                 })
                 .authorizeHttpRequests(c -> {
-                   c.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                           .anyRequest().permitAll();
+                    c.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                            .anyRequest().permitAll();
                 });
+                /*.authorizeHttpRequests(c -> {
+                   c.requestMatchers("/admin/**").hasAnyAuthority("ADMIN") // 관리자 페이지는 ADMIN 권한
+                           .requestMatchers("/board/mypage/**", "board/write/**", "board/edit/**").authenticated() // 인증한 회원
+                           .anyRequest().permitAll(); // 나머지 페이지는 모두 접근 가능
+                });*/
 
 
         return http.build();

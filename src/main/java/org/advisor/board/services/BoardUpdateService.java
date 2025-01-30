@@ -75,11 +75,11 @@ public class BoardUpdateService {
         boardDataRepository.saveAndFlush(data);
 
         /* 게시글 파일 첨부 작업 완료 처리 S */
-        /*
-        String apiUrl = utils.serviceUrl("file-service", "/done/" + data.getGid());
+
+        /*String apiUrl = utils.serviceUrl("file-service", "/done/" + data.getGid());
         HttpEntity<Void> request = new HttpEntity<>(utils.getRequestHeader());
-        restTemplate.exchange(URI.create(apiUrl), HttpMethod.GET, request, Void.class);
-         */
+        restTemplate.exchange(URI.create(apiUrl), HttpMethod.GET, request, Void.class);*/
+
         /* 게시글 파일 첨부 작업 완료 처리 E */
 
         return data;

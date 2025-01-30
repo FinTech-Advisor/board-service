@@ -1,10 +1,14 @@
 package org.advisor.board.controllers;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.advisor.member.contants.Authority;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RequestConfig {
     private String mode;
 

@@ -16,7 +16,6 @@ import org.advisor.global.libs.Utils;
 import org.advisor.global.paging.ListData;
 import org.advisor.global.rests.JSONData;
 import org.advisor.member.MemberUtil;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -59,15 +58,16 @@ public class BoardController {
      *
      * @return
      */
-    @Operation(summary = "게시판 등록 및 수정 처리")
-    @ApiResponse(responseCode = "201", description = "게시판 등록 시 ")
+    @Operation(summary = "게시글 등록 및 수정 처리")
+    @ApiResponse(responseCode = "201", description = "게시판 등록 및 수정 처리")
     @Parameters({
-            @Parameter(name="seq", description = "게시글 번호", required = true),
-            @Parameter(name="mode", description = "write(등록) 혹은 edit(수정) 무엇이냐에 따라 저장 처리를 달리함"),
-            @Parameter(name="file", description = "업로드 파일, 복수개 전송 가능", required = true)
+            @Parameter(name="글 번호", description = "게시글 번호", required = true),
+            @Parameter(name="글 모드", description = "write(등록) 혹은 edit(수정)"),
+            @Parameter(name="글 제목", description = "글 제목", required = true),
+            @Parameter(name="글 내용", description = "글 내용", required = true),
     })
     @PostMapping("/save")
-    public JSONData save(@Valid RequestBoard form, Errors errors, Model model) {
+    public JSONData save(@Valid @RequestBody RequestBoard form, Errors errors) {
         String mode = form.getMode();
         mode = StringUtils.hasText(mode) ? mode : "write";
         commonProcess(form.getBid(), mode); // 공통 처리
@@ -81,8 +81,8 @@ public class BoardController {
         BoardData data = updateService.process(form);
 
         return new JSONData(data);
-    }
 
+    }
     /**
      * 게시글 한개 조회
      * - 글보기, 글 수정시에 활용될 수 있음(프론트앤드)
@@ -92,8 +92,10 @@ public class BoardController {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public JSONData view(@PathVariable("seq") Long seq, @ModelAttribute RequestComment form) {
+    public JSONData view(@PathVariable("seq") Long seq, RequestBoard form, Errors errors) {
         commonProcess(seq, "view");
+
+        boardValidator.validate(form, errors);
 
         BoardData data = infoService.get(seq);
 
@@ -106,6 +108,12 @@ public class BoardController {
      * @param bid
      * @return
      */
+    @Operation(summary = "게시글 목록 조회")
+    @ApiResponse(responseCode = "201", description = "게시판 목록 조회  시 ")
+    @Parameters({
+            @Parameter(name="seq", description = "게시글 번호", required = true),
+            @Parameter(name="mode", description = "write(등록) 혹은 edit(수정) 무엇이냐에 따라 저장 처리를 달리함"),
+    })
     @GetMapping("/list/{bid}")
     public JSONData list(@PathVariable("bid") String bid, @ModelAttribute BoardSearch search) {
         commonProcess(bid, "list");
@@ -124,7 +132,6 @@ public class BoardController {
     @DeleteMapping("/{seq}")
     public JSONData delete(@PathVariable("seq") Long seq) {
         commonProcess(seq, "delete");
-
         BoardData item = deleteService.delete(seq);
 
         return new JSONData(item);
@@ -139,9 +146,8 @@ public class BoardController {
      * @param mode
      */
     private void commonProcess(Long seq, String mode) {
-        authService.check(mode, seq); // 게시판 권한 체크 - 조회, 수정, 삭제
-
-
+        mode = StringUtils.hasText(mode) ? mode : "view";
+        authService.check(mode, seq); // 게시판 권한 체크 - 조회, 삭제
     }
 
     /**
