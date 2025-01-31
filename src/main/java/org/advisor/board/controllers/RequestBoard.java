@@ -1,8 +1,10 @@
 package org.advisor.board.controllers;
 
+import jakarta.persistence.GeneratedValue;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.advisor.global.entities.BaseEntity;
+import org.springframework.data.annotation.Id;
 
 @Data
 public class RequestBoard {
@@ -12,7 +14,6 @@ public class RequestBoard {
     @NotBlank
     private String bid; // 게시판 아이디
 
-    @NotBlank
     private String gid;
 
     @NotBlank

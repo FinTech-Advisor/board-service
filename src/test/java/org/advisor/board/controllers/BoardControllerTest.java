@@ -76,17 +76,23 @@ public class BoardControllerTest {
         JSONData jsonData = om.readValue(res, JSONData.class);
         BoardData data = om.readValue(om.writeValueAsString(jsonData.getData()), BoardData.class);
 
+        System.out.println("--------------------------------------------------------");
+
         System.out.println("게시글 조회 시작");
         // 게시글 조회
         mockMvc.perform(get("/view/" + data.getSeq()))
                 .andDo(print());
         System.out.println("게시글 조회 끝");
 
+        System.out.println("--------------------------------------------------------");
+
         System.out.println("게시글 목록 시작");
         // 게시글 목록 조회
         mockMvc.perform(get("/list/" + board.getBid()))
                 .andDo(print());
         System.out.println("게시글 목록 끝");
+
+        System.out.println("--------------------------------------------------------");
 
         System.out.println("게시글 삭제 시작");
         // 게시글 삭제
