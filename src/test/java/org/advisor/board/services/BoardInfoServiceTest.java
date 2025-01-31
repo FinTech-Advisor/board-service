@@ -1,5 +1,6 @@
 package org.advisor.board.services;
 
+<<<<<<< Updated upstream
 import org.advisor.board.controllers.RequestBoard;
 import org.advisor.board.controllers.RequestConfig;
 import org.advisor.board.entities.Board;
@@ -13,11 +14,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
+=======
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+>>>>>>> Stashed changes
 
 @SpringBootTest
 @ActiveProfiles({"default", "test"})
 @AutoConfigureMockMvc
 public class BoardInfoServiceTest {
+<<<<<<< Updated upstream
     @Autowired
     private BoardInfoService infoService;
 
@@ -43,4 +50,7 @@ public class BoardInfoServiceTest {
         // BoardUpdateService
 
     }
+=======
+
+>>>>>>> Stashed changes
 }
