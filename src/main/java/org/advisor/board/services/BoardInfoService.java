@@ -22,6 +22,7 @@ import org.advisor.member.MemberUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class BoardInfoService {
      * @return
      */
     public BoardData get(Long seq) {
-
+        System.out.println("************************get 입장************************");
         BoardData item = boardDataRepository.findBySeq(seq).orElseThrow(BoardDataNotFoundException::new);
 
         addInfo(item, true); // 추가 정보 처리
@@ -194,6 +195,9 @@ public class BoardInfoService {
         ListData<BoardData> data = getList(search);
 
         List<BoardData> items = data.getItems();
+
+        System.out.println(items.size());
+
         return items == null ? List.of() : items;
     }
 
@@ -246,7 +250,9 @@ public class BoardInfoService {
                             .fetchFirst();
 
             item.setPrev(prev);
+            System.out.println("prev의 값 : " + item.getPrev());
             item.setNext(next);
+            System.out.println("next의 값 : " + item.getNext());
         }
 
         /* listable, writable, editable, mine 처리 S */
