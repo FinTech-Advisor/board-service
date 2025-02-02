@@ -48,6 +48,8 @@ public class BoardInfoService {
      */
     public BoardData get(Long seq) {
         System.out.println("************************get 입장************************");
+        System.out.println("seq : " + seq);
+        System.out.println(boardDataRepository.count());
         BoardData item = boardDataRepository.findBySeq(seq).orElseThrow(BoardDataNotFoundException::new);
 
         addInfo(item, true); // 추가 정보 처리

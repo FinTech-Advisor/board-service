@@ -29,6 +29,14 @@ public class BoardAuthService {
     private final BoardInfoService infoService;
     private final CommentInfoService commentInfoService;
     private final MemberUtil memberUtil;
+
+    public void check(List<Long> seqs, String mode) {
+        for (Long seq : seqs) {
+            check(mode, seq);
+        }
+    }
+
+
     /**
      * 게시판 권한 체크
      *
@@ -38,12 +46,16 @@ public class BoardAuthService {
      */
     public void check(String mode, String bid, Long seq) {
         System.out.printf("mode=%s, bid=%s, seq=%d%n", mode, bid, seq);
+
+        System.out.println("권한 확인");
         if (!StringUtils.hasText(mode) || !StringUtils.hasText(bid) || (List.of("edit", "delete", "comment").contains(mode) && (seq == null || seq < 1L ))) {
             System.out.printf("mode = %s, bid = %s, seq = %s 값 확인 필요%n", mode, bid, seq);
             throw new BadRequestException();
         }
 
+        System.out.println("관리자면 모두 허용");
         if (memberUtil.isAdmin()) { // 관리자는 모두 허용
+            System.out.println("-----------관리자는 모두 허용!-----------");
             return;
         }
 
@@ -58,7 +70,9 @@ public class BoardAuthService {
         }
 
         // 게시판 사용 여부 체크
+        System.out.println("board.isOpen() : " + board.isOpen());
         if (!board.isOpen()) {
+            System.out.println("board.isOpen()이 false이기에 접근");
             throw new BoardNotFoundException();
         }
 

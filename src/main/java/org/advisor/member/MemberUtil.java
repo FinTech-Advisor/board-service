@@ -16,7 +16,6 @@ public class MemberUtil {
 
     // 관리자 여부 체크
     public boolean isAdmin() {
-
         return isLogin() && getMember().get_authorities().stream().anyMatch(a -> a == Authority.ADMIN);
     }
 

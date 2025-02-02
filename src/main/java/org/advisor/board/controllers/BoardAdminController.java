@@ -43,14 +43,14 @@ public class BoardAdminController {
     @Operation(summary = "게시판 등록 및 수정 처리")
     @ApiResponse(responseCode = "201", description = "게시판 등록 및 수정 처리")
     @Parameters({
-            @Parameter(name="게시판 그룹", description = "게시판 그룹"),
-            @Parameter(name="게시판 제목", description = "게시판 제목"),
-            @Parameter(name="글 모드", description = "write 혹은 edit"),
+            @Parameter(name="bid", description = "게시판 그룹"),
+            @Parameter(name="name", description = "게시판 제목"),
+            @Parameter(name="mode", description = "add 혹은 edit"),
     })
     @RequestMapping(path="/config", method={RequestMethod.POST, RequestMethod.PATCH})
     public JSONData save(@Valid @RequestBody RequestConfig form, Errors errors) {
         String method = request.getMethod().toUpperCase();
-        String mode = method.equals("POST") ? "write" : "edit";
+        String mode = method.equals("POST") ? "add" : "edit";
         form.setMode(mode);
 
         configValidator.validate(form, errors);

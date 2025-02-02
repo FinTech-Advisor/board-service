@@ -16,6 +16,7 @@ import org.advisor.global.libs.Utils;
 import org.advisor.global.paging.ListData;
 import org.advisor.global.rests.JSONData;
 import org.advisor.member.MemberUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,7 @@ public class BoardController {
     private final Utils utils;
     private final BoardValidator boardValidator;
     private final BoardConfigInfoService configInfoService;
+    private final ViewUpdateService viewupdateService;
     private final BoardUpdateService updateService;
     private final BoardInfoService infoService;
     private final BoardDeleteService deleteService;
@@ -88,16 +90,17 @@ public class BoardController {
      * - 글보기, 글 수정시에 활용될 수 있음(프론트앤드)
      *
      * @param seq
-     * @param form
      * @return
      */
     @GetMapping("/view/{seq}")
-    public JSONData view(@PathVariable("seq") Long seq, RequestBoard form, Errors errors) {
+    public JSONData view(@PathVariable("seq") Long seq, Errors errors) {
         commonProcess(seq, "view");
 
-        boardValidator.validate(form, errors);
-
         BoardData data = infoService.get(seq);
+
+        if (errors.hasErrors()) {
+            throw new BadRequestException(utils.getErrorMessages(errors));
+        }
 
         return new JSONData(data);
     }
@@ -124,30 +127,52 @@ public class BoardController {
     }
 
     /**
-     * 게시글 한개 삭제
+     * 게시글 단일 혹은 복수 삭제
      *
-     * @param seq
+     * @param seqs
      * @return
      */
-    @DeleteMapping("/{seq}")
-    public JSONData delete(@PathVariable("seq") Long seq) {
-        commonProcess(seq, "delete");
-        BoardData item = deleteService.delete(seq);
+    @DeleteMapping("/deletes")
+    public JSONData delete(@RequestParam("seq") List<Long> seqs) {
+        commonProcess(seqs, "delete");
+        List<BoardData> item = deleteService.delete(seqs);
 
         return new JSONData(item);
     }
 
+    /**
+     * 조회수 업데이트 처리
+     *
+     * @param seq
+     */
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @GetMapping("/viewcount/{seq}")
+    public JSONData updateViewCount(@PathVariable("seq") Long seq) {
+        long viewCount = viewupdateService.process(seq);
+
+        return new JSONData(viewCount);
+    }
 
 
     /**
-     * 게시글 번호로 공통 처리
+     * 게시글 번호로 공통 처리(seq가 1개일 때)
      *
      * @param seq
      * @param mode
      */
     private void commonProcess(Long seq, String mode) {
-        mode = StringUtils.hasText(mode) ? mode : "view";
         authService.check(mode, seq); // 게시판 권한 체크 - 조회, 삭제
+    }
+
+    /**
+     * 게시글 번호로 공통 처리(seq가 2개 이상일 때)
+     *
+     * @param seqs
+     * @param mode
+     */
+    private void commonProcess(List<Long> seqs, String mode) {
+
+        authService.check(seqs, mode); // 게시판 권한 체크 - 조회, 삭제
     }
 
     /**

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles({"default", "test"})
 @AutoConfigureMockMvc
 @Transactional
 public class BoardInfoServiceTest {
@@ -42,7 +42,6 @@ public class BoardInfoServiceTest {
     private Member member;
 
     private Board board;
-    private BoardData boardData;
     private RequestBoard form;
     private BoardSearch boardSearch;
 

@@ -29,10 +29,10 @@ public class BoardConfigValidator implements Validator {
 
         RequestConfig form = (RequestConfig)target;
         String mode = form.getMode();
-        mode = StringUtils.hasText(mode) ? mode : "write";
+        mode = StringUtils.hasText(mode) ? mode : "add";
 
         String bid = form.getBid();
-        if (mode.equals("write") && boardRepository.exists(bid)) {
+        if (mode.equals("add") && boardRepository.exists(bid)) {
             // 게시판 아이디의 중복 여부 체크
             errors.rejectValue("bid", "Duplicated");
         }

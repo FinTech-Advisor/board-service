@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @Lazy
 @Service
@@ -27,16 +29,33 @@ public class BoardDeleteService {
 
         // 파일 삭제 S
 
+        /*
         HttpEntity<Void> request = new HttpEntity<>(utils.getRequestHeader());
         String apiUrl = utils.serviceUrl("file-service", "/delete" + item.getGid());
         restTemplate.exchange(URI.create(apiUrl), HttpMethod.GET, request, Void.class);
+        */
 
         // 파일 삭제 E
 
         boardRepository.delete(item);
-        boardRepository.flush();
+        boardRepository.saveAndFlush(item);
 
 
         return item;
+    }
+
+    public List<BoardData> delete(List<Long> seqs) {
+
+        List<BoardData> data = new ArrayList<>();
+
+        for  (Long seq : seqs) {
+            BoardData item = delete(seq);
+
+            if (item != null) {
+                data.add(item);
+            }
+        }
+
+        return data;
     }
 }

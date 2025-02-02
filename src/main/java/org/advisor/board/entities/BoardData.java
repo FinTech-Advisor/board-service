@@ -34,6 +34,8 @@ public class BoardData extends BaseMemberEntity implements Serializable {
     @Lob
     private String content;
 
+    private long viewCount; // 조회수
+
     private long commentCount; // 댓글수
 
     @Column(length=20)

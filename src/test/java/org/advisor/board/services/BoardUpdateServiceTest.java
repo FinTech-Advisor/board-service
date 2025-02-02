@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles({"default", "test"})
 @AutoConfigureMockMvc
 @Transactional
 public class BoardUpdateServiceTest {
