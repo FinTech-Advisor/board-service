@@ -51,6 +51,7 @@ public class BoardUpdateServiceTest {
     }
 
     @Test
+    @MockMember
     void test() {
         // BoardUpdateService
         System.out.println(board);

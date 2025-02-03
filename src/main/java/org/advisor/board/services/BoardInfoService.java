@@ -271,6 +271,7 @@ public class BoardInfoService {
 
         boolean editable = memberUtil.isLogin() && loggedMember.getEmail().equals(createdBy); // 회원게시글 로그인 한 회원과 일치하면 버튼 노출
 
+        System.out.printf("utils.getUserHash() : %s, item.getSeq() : %s, memberUtil.isLogin() : %s, loggedMember.getEmail().equals(createdBy) : %s", utils.getUserHash(), item.getSeq(), memberUtil.isLogin(), loggedMember.getEmail().equals(createdBy));
         boolean mine = utils.getValue(utils.getUserHash() + "_board_" + item.getSeq()) != null
                         || (memberUtil.isLogin() && loggedMember.getEmail().equals(createdBy));
 
