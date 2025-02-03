@@ -2,11 +2,13 @@ package org.advisor.board.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.advisor.global.entities.BaseMemberEntity;
 
 import java.io.Serializable;
 
-@Data
+@Getter @Setter
 @Entity
 @Table(indexes = {
         @Index(name="idx_bd_created_at", columnList = "createdAt DESC"),

@@ -22,7 +22,6 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles({"default", "test"})
 @AutoConfigureMockMvc
-@Transactional
 public class BoardUpdateServiceTest {
 
     @Autowired
@@ -72,7 +71,7 @@ public class BoardUpdateServiceTest {
         }
 
         System.out.println("데이터의 수 : " + repository.count());
+        System.out.println("-------------------------------------------------------------------------------");
         infoService.get(3L);
-        System.out.println(infoService.get(3L));
     }
 }
