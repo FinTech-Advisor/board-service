@@ -251,10 +251,19 @@ public class BoardInfoService {
                             .orderBy(boardData.seq.asc())
                             .fetchFirst();
 
+            if (prev != null) {
+                prev.setPrev(null);
+                prev.setNext(null);
+            }
+
+            if (prev != null) {
+                prev.setPrev(null);
+                prev.setNext(null);
+            }
+
             item.setPrev(prev);
-            // System.out.println("prev의 값 : " + item.getPrev());
             item.setNext(next);
-            // System.out.println("next의 값 : " + item.getNext());
+
         }
 
         /* listable, writable, editable, mine 처리 S */

@@ -25,7 +25,6 @@ import java.util.List;
 @SpringBootTest
 @ActiveProfiles({"default", "test"})
 @AutoConfigureMockMvc
-@Transactional
 public class BoardInfoServiceTest {
     @Autowired
     private BoardUpdateService updateService;

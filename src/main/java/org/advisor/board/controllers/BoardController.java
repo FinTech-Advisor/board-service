@@ -92,6 +92,11 @@ public class BoardController {
      * @param seq
      * @return
      */
+    @Operation(summary = "게시판 설정 조회")
+    @ApiResponse(responseCode = "201", description = "게시판 설정 조회, 게시판 설정 반환")
+    @Parameters({
+            @Parameter(name="bid", description = "게시판 그룹 ID", required = true),
+    })
     @GetMapping("/view/{seq}")
     public JSONData view(@PathVariable("seq") Long seq, Errors errors) {
         commonProcess(seq, "view");
