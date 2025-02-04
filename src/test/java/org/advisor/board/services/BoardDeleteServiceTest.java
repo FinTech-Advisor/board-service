@@ -5,6 +5,7 @@ import org.advisor.board.controllers.RequestConfig;
 import org.advisor.board.entities.Board;
 import org.advisor.board.repositories.BoardDataRepository;
 import org.advisor.board.services.configs.BoardConfigUpdateService;
+import org.advisor.member.test.annotations.MockMember;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@ActiveProfiles({"default", "test"})
+@ActiveProfiles("default")
 @AutoConfigureMockMvc
-@Transactional
 public class BoardDeleteServiceTest {
 
     @Autowired
@@ -45,17 +45,11 @@ public class BoardDeleteServiceTest {
     }
 
     @Test
+    @MockMember
     void test() {
         form = new RequestBoard();
 
         // 조회를 위해 BoardUpdateService로 임의글 작성
-        form.setBid(board.getBid());
-        form.setMode("write");
-        form.setSubject("테스트 제목");
-        form.setContent("테스트 내용");
-        form.setGid("test");
-        form.setPoster("작성자");
-
         updateService.process(form);
 
         System.out.println("삭제 전 레포지토리 수 : " + repository.count());

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-@ActiveProfiles({"default", "test"})
+@ActiveProfiles("default")
 @AutoConfigureMockMvc
 public class BoardInfoServiceTest {
     @Autowired
@@ -55,7 +55,7 @@ public class BoardInfoServiceTest {
     }
 
     @Test
-    @MockMember
+    @MockMember(seq = 1L, name = "사용자01", email = "user@test.org", authority = Authority.USER)
     void test() {
         form = new RequestBoard();
 
